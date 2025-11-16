@@ -1,21 +1,37 @@
-#include <Servo.h>
+#include <Servo.h> // Libreria para el servoMotor 
 
-// --- Definición de pines ---
-const int sensor1 = 8;        // Pin ECHO del sensor ultrasónico
-const int sensor2 = 9;      // Pin TRIGGER del sensor ultrasónico
-const int motor1 = 12;        // LED indicador
-const int motor2 = 10;      // ServoMotor
+const int sensor1 = 8;    // Declaracion de Pines
+const int sensor2 = 9;      
+const int motor1 = 12;        
+const int motor2 = 10;      
 
-// --- Declaracion del servo ---
 Servo servoMotor;
 unsigned int distancia;
 bool leerSensor = true; // Variable para controlar cuándo leer el sensor
 
-// --- Variables para control al sensor ---
 unsigned long tiempoAnterior = 0;
 unsigned long intervaloMedicion = 200;
-
-// --- Variables para control de tiempo del motor ---
 unsigned long tiempoMotor = 0;
 int estadoMotor = 0;
 bool movimientoActivo = false;
+
+void setup() {
+  Serial.begin(9600);       
+  pinMode(sensor1, INPUT);    
+  pinMode(sensor2, OUTPUT);   
+  pinMode(motor1, OUTPUT);    
+  servoMotor.attach(motor2);  
+  servoMotor.write(0);       
+  digitalWrite(motor1, LOW);  
+}
+
+void loop() {
+  unsigned long tiempoActual = millis();             
+  if (tiempoActual - tiempoAnterior >= intervaloMedicion) {
+    tiempoAnterior = tiempoActual;                   
+    medirSensor();                                  
+  }
+  if (movimientoActivo) {
+    controlarMotor(tiempoActual);
+  }
+}
