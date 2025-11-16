@@ -65,7 +65,7 @@ Esquema Eléctrico / Diagrama de Conexiones
 
 Máquina de Estados
 
-![Diagrama de estado](media/diagrama_estado.png)
+![Diagrama de estado](media/DIagrama_de_estado.png)
 
 El sistema trabaja con la siguiente lógica:
 
